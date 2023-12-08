@@ -35,10 +35,9 @@ app.get('/',async function (request,response){
     const wishList = await Tele.loadMany({etat:0});
     const baughtList1 = await Tele.loadMany({etat:1});
     const baughtList2 = await Tele.loadMany({etat:2});
-    console.log(baughtList)
-    console.log(wishList)
     const baughtList = baughtList1.join(baughtList2);
-
+    console.log(baughtList);
+    console.log(wishList);
     response.render('home.ejs', {wishList,baughtList});
 })
 app.listen(3000, function(){
