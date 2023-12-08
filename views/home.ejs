@@ -3,11 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Tv List</title>
+    <style>
+        /* Your CSS code here */
+    </style>
 </head>
 <body>
+    <div id="app">
+        <h1>Tv List</h1>
 
-    <script src="home.js"></script>
+        <!-- Form to add a TV -->
+        <form action="/add-tv" method="post">
+            <label for="brand">Brand:</label>
+            <input type="text" id="brand" name="brand" required>
+            <br>
+            <label for="price">Price:</label>
+            <input type="text" id="price" name="price" required>
+            <br>
+            <label for="size">Size:</label>
+            <input type="text" id="size" name="size" required>
+            <br>
+            <button type="submit">Add TV</button>
+        </form>
+
+        <h2>Wish List</h2>
+        <ul>
+            <% wishlist.forEach(tv => { %>
+                <li>
+                    <%= tv.Brand %> - <%= tv.Price %> - <%= tv.lenght %> inches
+                </li>
+            <% }); %>
+        </ul>
+
+        <h2>Bought List</h2>
+        <table>
+            <tr>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Length</th>
+                <th>Status</th>
+                <th>Cause</th>
+                <th>Complete Cause</th>
+                <th>Action</th>
+            </tr>
+            <% baughtlist.forEach(tv => { %>
+                <tr>
+                    <td><%= tv.Brand %></td>
+                    <td><%= tv.Price %></td>
+                    <td><%= tv.lenght %> inches</td>
+                    <td><%= tv.state === 1 ? 'Pending' : 'Bought' %></td>
+                    <td><%= tv.cause %></td>
+                    <td>
+                        <% if (tv.state === 1) { %>
+                            <form action="/complete-cause/<%= tv.Brand %>" method="get">
+                                <input type="text" name="cause" placeholder="Complete Cause" required>
+                                <button type="submit">Complete</button>
+                            </form>
+                        <% } %>
+                    </td>
+                    <td>
+                        <% if (tv.state === 1) { %>
+                            <form action="/buy-tv/<%= tv.Brand %>" method="get">
+                                <button type="submit">Buy</button>
+                            </form>
+                        <% } %>
+                    </td>
+                </tr>
+            <% }); %>
+        </table>
+
+        <p>Sum of spent money: <%= baughtlist.reduce((sum, tv) => sum + parseInt(tv.Price), 0) %> </p>
+    </div>
 </body>
 </html>
