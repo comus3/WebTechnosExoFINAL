@@ -12,7 +12,7 @@ try {
         host : 'localhost',
         user : 'root',
         password : passwordContent,
-        database : 'WRITE YOUR DATA BASE NAME HERE',
+        database : 'users',
         Promise: bluebird
     });
 
