@@ -2,77 +2,134 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tv List</title>
     <style>
-        /* Your CSS code here */
+        /* Your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #app {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #ff5959;
+            color: #fff;
+            border: none;
+            padding: 4px 8px;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+        button:hover {
+            background-color: #ff0000;
+        }
     </style>
 </head>
 <body>
     <div id="app">
         <h1>Tv List</h1>
-
+        
         <!-- Form to add a TV -->
         <form action="/add-tv" method="post">
             <label for="brand">Brand:</label>
-            <input type="text" id="brand" name="brand" required>
-            <br>
+            <input type="text" name="brand" required>
             <label for="price">Price:</label>
-            <input type="text" id="price" name="price" required>
-            <br>
+            <input type="text" name="price" required>
             <label for="size">Size:</label>
-            <input type="text" id="size" name="size" required>
-            <br>
+            <input type="text" name="size" required>
             <button type="submit">Add TV</button>
         </form>
 
-        <h2>Wish List</h2>
-        <ul>
-            <% wishlist.forEach(tv => { %>
-                <li>
-                    <%= tv.Brand %> - <%= tv.Price %> - <%= tv.lenght %> inches
-                </li>
-            <% }); %>
-        </ul>
+        <h2>Wishlist</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Brand</th>
+                    <th>Price</th>
+                    <th>Length</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% wishlist.forEach(tv => { %>
+                    <tr>
+                        <td><%= tv.Brand %></td>
+                        <td><%= tv.Price %></td>
+                        <td><%= tv.lenght %></td>
+                        <td><a href="/buy-tv/<%= tv.id %>">Buy</a></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
 
         <h2>Bought List</h2>
         <table>
-            <tr>
-                <th>Brand</th>
-                <th>Price</th>
-                <th>Length</th>
-                <th>Status</th>
-                <th>Cause</th>
-                <th>Complete Cause</th>
-                <th>Action</th>
-            </tr>
-            <% baughtlist.forEach(tv => { %>
+            <thead>
                 <tr>
-                    <td><%= tv.Brand %></td>
-                    <td><%= tv.Price %></td>
-                    <td><%= tv.lenght %> inches</td>
-                    <td><%= tv.state === 1 ? 'Pending' : 'Bought' %></td>
-                    <td><%= tv.cause %></td>
-                    <td>
-                        <% if (tv.state === 1) { %>
-                            <form action="/complete-cause/<%= tv.Brand %>" method="get">
-                                <input type="text" name="cause" placeholder="Complete Cause" required>
-                                <button type="submit">Complete</button>
-                            </form>
-                        <% } %>
-                    </td>
-                    <td>
-                        <% if (tv.state === 1) { %>
-                            <form action="/buy-tv/<%= tv.Brand %>" method="get">
-                                <button type="submit">Buy</button>
-                            </form>
-                        <% } %>
-                    </td>
+                    <th>Brand</th>
+                    <th>Price</th>
+                    <th>Length</th>
+                    <th>Status</th>
+                    <th>Cause</th>
+                    <th>Action</th>
                 </tr>
-            <% }); %>
+            </thead>
+            <tbody>
+                <% baughtlist.forEach(tv => { %>
+                    <tr>
+                        <td><%= tv.Brand %></td>
+                        <td><%= tv.Price %></td>
+                        <td><%= tv.lenght %></td>
+                        <td><%= tv.state === 1 ? 'Active' : 'Broken' %></td>
+                        <td><%= tv.cause %></td>
+                        <td>
+                            <% if (tv.state === 2) { %>
+                                <form action="/complete-cause/<%= tv.Brand %>" method="get">
+                                    <input type="text" name="cause" placeholder="Cause">
+                                    <button type="submit">Complete</button>
+                                </form>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
         </table>
 
-        <p>Sum of spent money: <%= baughtlist.reduce((sum, tv) => sum + parseInt(tv.Price), 0) %> </p>
+        <p>Sum of Spent Money: <%= baughtlist.reduce((sum, tv) => sum + parseFloat(tv.Price), 0).toFixed(2) %></p>
     </div>
 </body>
 </html>
