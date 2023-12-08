@@ -74,7 +74,7 @@
             <button type="submit">Add TV</button>
         </form>
 
-        <h2>Wishlist</h2>
+        <h2>wishList</h2>
         <table>
             <thead>
                 <tr>
@@ -85,7 +85,7 @@
                 </tr>
             </thead>
             <tbody>
-                <% wishlist.forEach(tv => { %>
+                <% wishList.forEach(tv => { %>
                     <tr>
                         <td><%= tv.Brand %></td>
                         <td><%= tv.Price %></td>
@@ -109,7 +109,7 @@
                 </tr>
             </thead>
             <tbody>
-                <% baughtlist.forEach(tv => { %>
+                <% baughtList.forEach(tv => { %>
                     <tr>
                         <td><%= tv.Brand %></td>
                         <td><%= tv.Price %></td>
@@ -129,7 +129,7 @@
             </tbody>
         </table>
 
-        <p>Sum of Spent Money: <%= baughtlist.reduce((sum, tv) => sum + parseFloat(tv.Price), 0).toFixed(2) %></p>
+        <p>Sum of Spent Money: <%= baughtList.reduce((sum, tv) => sum + parseFloat(tv.Price), 0).toFixed(2) %></p>
     </div>
 </body>
 </html>

@@ -1,12 +1,15 @@
 import Tele from "./models/tele.js";
 import express from "express"
 
-let televisionList = new Tele;
+
 const app = express();
 app.use(express.static("public"));
 app.set("view engine","ejs");
 app.use(express.urlencoded({extended:true}));
-app.use(express.static('public'));  
+
+
+
+
 app.post('/add-tv',async function (request,response){
     if (request.body.something != null){
         
@@ -28,14 +31,15 @@ app.get('/complete-cause',async function (request,response){
     }
 })
 app.get('/',async function (request,response){
-    if (request.query.something != null){
-        //render page
-        const wishList = await televisionList.loadMany({etat:0});
-        const baughtList = await televisionList.loadMany({etat:1,etat:2})
-        res.render('home.ejs', {wishList,baughtList});
-        response.redirect('/');
+    //render page
+    const wishList = await Tele.loadMany({etat:0});
+    const baughtList1 = await Tele.loadMany({etat:1});
+    const baughtList2 = await Tele.loadMany({etat:2});
+    console.log(baughtList)
+    console.log(wishList)
+    const baughtList = baughtList1.join(baughtList2);
 
-    }
+    response.render('home.ejs', {wishList,baughtList});
 })
 app.listen(3000, function(){
     console.log("Server ok");
